@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from processing.extract_audio import extract_audio
 from processing.remove_music import remove_music
 from processing.merge_audio_video import merge_audio_video
+from processing.enhance_audio import enhance_audio
 
 def process_video(video_path):
 
@@ -23,9 +24,12 @@ def process_video(video_path):
     if not os.path.exists(vocals_path):
         raise FileNotFoundError("Vocals file not generated")
 
-    print("3) Merging clean audio with video...")
+    print("3) Enhancing audio...")
+    enhanced_path = enhance_audio(vocals_path)
+
+    print("4) Merging enhanced audio with video...")
     output_video = "final.mp4"
-    merge_audio_video(video_path, vocals_path, output_video)
+    merge_audio_video(video_path, enhanced_path, output_video)
 
     print("Done successfully")
     return output_video
